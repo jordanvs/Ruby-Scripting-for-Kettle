@@ -950,7 +950,12 @@ public class RubyStepDialog extends BaseStepDialog implements StepDialogInterfac
 		lGemHome.setLayoutData(fdlGemHome);
 
 		wGemHome = new TextVar(transMeta, wPanel, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-		wGemHome.setText(input.getGemHome());
+
+		// Hack fix to address #11, #13. This would likely break environments that use the bottom "ruby runtime" tab to
+		// define their GEM_HOME.
+		String gemHomeSafe = (input.getGemHome() == null) ? "" : input.getGemHome();
+		
+		wGemHome.setText(gemHomeSafe);
 		props.setLook(wGemHome);
 		wGemHome.addModifyListener(lsMod);
 		FormData fdGemHome = new FormData();
